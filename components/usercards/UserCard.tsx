@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import UserCardBtn from "./UserCardBtn";
+
+import followUser from "@/config/actions/followUser";
 
 interface IUserCardProps {
   uid: string;
@@ -27,10 +28,25 @@ const UserCard = ({ uid, profile, image }: IUserCardProps) => {
           {profile.name} - {profile.displayname}
         </h3>
         <p>{profile.bio}</p>
-        <div>
-          <UserCardBtn btnText={"Follow Me"} />
+        <div className="flex flex-row">
+          <form action={followUser}>
+            <input
+              id="userToFollowId"
+              name="userToFollowId"
+              type="hidden"
+              value={uid.toString()}
+            />
+            <button
+              type="submit"
+              className="bg-slate-400 p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300"
+            >
+              Follow Me
+            </button>
+          </form>
           <Link href={`/user/${uid}`}>
-            <UserCardBtn btnText={"My Profile"} />
+            <button className="bg-slate-400 p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300">
+              My Profile
+            </button>
           </Link>
         </div>
       </div>

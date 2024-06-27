@@ -5,7 +5,7 @@ const PostForm = () => {
   return (
     <form
       action={addPost}
-      className="flex flex-col items-center justify-between w-[250px] h-[200px] bg-zinc-300 border-zinc-600 m-5 border-2"
+      className="flex flex-col items-center justify-between w-[250px] h-[250px] bg-zinc-300 border-zinc-600 m-5 border-2"
     >
       <header className="font-bold w-full px-3 bg-zinc-400">
         <h3>Create Post</h3>
