@@ -23,6 +23,7 @@ const getMyFeed = async () => {
 
     const formattedPosts = postsFromFollowed.map((post) => ({
       postId: post._id,
+      posterId: post.user._id,
       user: post.user.username,
       image: post.user.image,
       body: post.body,

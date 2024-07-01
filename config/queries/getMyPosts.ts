@@ -13,6 +13,7 @@ async function getMyPosts(): Promise<INotePostData[]> {
     const posts = await Post.find({ user: userId, status: "pinned" });
     const formattedPosts = posts.map((post) => ({
       postId: post._id,
+      posterId: sessionUser.userId,
       user: sessionUser.user.name!,
       image: sessionUser.user.image!,
       body: post.body,

@@ -5,7 +5,14 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-import { signIn, signOut, useSession, getProviders, ClientSafeProvider, LiteralUnion } from "next-auth/react";
+import {
+  signIn,
+  signOut,
+  useSession,
+  getProviders,
+  ClientSafeProvider,
+  LiteralUnion,
+} from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers/index";
 
 import { FaGoogle } from "react-icons/fa";
@@ -13,24 +20,26 @@ import { FaStickyNote } from "react-icons/fa";
 import defaultProfileImage from "@/assets/images/profile.png";
 
 const Navbar = () => {
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const profileImage = session?.user.image || defaultProfileImage;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   const [providers, setProviders] = useState<Record<
-           LiteralUnion<BuiltInProviderType, string>,ClientSafeProvider > | null>(null);
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null>(null);
 
   const pathName = usePathname();
 
   useEffect(() => {
     const setAuthProviders = async () => {
       const res = await getProviders();
-      setProviders(res)
-    }
+      setProviders(res);
+    };
     setAuthProviders();
-  }, [])
+  }, []);
 
   return (
     <nav className="bg-yellow-700 border-b border-blue-500">
@@ -74,7 +83,9 @@ const Navbar = () => {
               href="/"
             >
               <FaStickyNote className="h-10 w-auto" />
-              <span className="hidden md:block text-2xl ml-2">CommunityCork</span>
+              <span className="hidden md:block text-2xl ml-2">
+                CommunityCork
+              </span>
             </Link>
             <div className="hidden md:ml-6 md:block">
               <div className="flex space-x-2">
@@ -100,7 +111,6 @@ const Navbar = () => {
                     My Posts
                   </Link>
                 ) : null}
-                
               </div>
             </div>
           </div>
@@ -131,7 +141,8 @@ const Navbar = () => {
                   </svg>
                 </button>
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                  2{/* <!-- Replace with the actual number of notifications --> */}
+                  2
+                  {/* <!-- Replace with the actual number of notifications --> */}
                 </span>
               </Link>
               {/* Profile Menu Button */}
@@ -166,7 +177,6 @@ const Navbar = () => {
                     aria-labelledby="user-menu-button"
                     tabIndex={-1}
                   >
-
                     {/* Profile Menu */}
                     <Link
                       href="/profile"
@@ -200,13 +210,18 @@ const Navbar = () => {
             <div className="hidden md:block md:ml-6">
               {/* Right Menu Logged Out */}
               <div className="flex items-center">
-                {providers ? (Object.values(providers).map((provider, idx) => (
-                  <button key={idx} onClick={() => signIn(provider.id)} className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2">
-                    <FaGoogle className="text-white mr-2" />
-                    <span>Login or Register</span>
-                  </button>
-                ))
-                ) : null}
+                {providers
+                  ? Object.values(providers).map((provider, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => signIn(provider.id)}
+                        className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
+                      >
+                        <FaGoogle className="text-white mr-2" />
+                        <span>Login or Register</span>
+                      </button>
+                    ))
+                  : null}
               </div>
               {/* End Right Menu Logged Out */}
             </div>
@@ -229,15 +244,22 @@ const Navbar = () => {
             >
               Properties
             </Link>
-            {!session ? (<>
-              { providers ? (
-                Object.values(providers).map((provider, idx) => (
-                  <button key={idx} onClick={() => signIn(provider.id)} className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-4">
-                    <FaGoogle className="mr-2" />
-                    <span>Login or Register</span>
-                  </button>))
-                ) : null }
-            </>) : null }
+            {!session ? (
+              <>
+                {providers
+                  ? Object.values(providers).map((provider, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => signIn(provider.id)}
+                        className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-4"
+                      >
+                        <FaGoogle className="mr-2" />
+                        <span>Login or Register</span>
+                      </button>
+                    ))
+                  : null}
+              </>
+            ) : null}
           </div>
         </div>
       ) : null}

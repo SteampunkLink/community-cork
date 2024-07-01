@@ -10,6 +10,7 @@ export async function getUserProfileData(uid: string) {
   const posts = await Post.find({ user: uid });
   const formattedPosts = posts.map((post) => ({
     postId: post._id,
+    posterId: foundUser._id,
     user: foundUser.username,
     image: foundUser.image,
     body: post.body,

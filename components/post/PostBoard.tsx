@@ -3,6 +3,7 @@ import PostForm from "./PostForm";
 
 export interface INotePostData {
   postId: string;
+  posterId: string;
   user: string;
   image: string;
   body: string;

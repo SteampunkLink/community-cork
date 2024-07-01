@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { INotePostData } from "./PostBoard";
-import { FaHeart, FaRegHeart, FaArchive, FaTrash } from "react-icons/fa";
+import PostControls from "./PostControls";
 
 export const EmeraldNote = ({ postData }: { postData: INotePostData }) => {
   return (
@@ -23,11 +23,7 @@ export const EmeraldNote = ({ postData }: { postData: INotePostData }) => {
         <p>
           {postData.likes} {postData.likes === 1 ? "Like" : "Likes"}
         </p>
-        <div className="flex flex-row items-center">
-          <FaHeart className="mx-1" />
-          <FaArchive className="mx-1" />
-          <FaTrash className="ml-1" />
-        </div>
+        <PostControls postId={postData.postId} />
       </footer>
     </div>
   );
@@ -54,11 +50,7 @@ export const RoseNote = ({ postData }: { postData: INotePostData }) => {
         <p>
           {postData.likes} {postData.likes === 1 ? "Like" : "Likes"}
         </p>
-        <div className="flex flex-row items-center">
-          <FaHeart className="mx-1" />
-          <FaArchive className="mx-1" />
-          <FaTrash className="ml-1" />
-        </div>
+        <PostControls postId={postData.postId} />
       </footer>
     </div>
   );
@@ -85,11 +77,7 @@ export const SkyNote = ({ postData }: { postData: INotePostData }) => {
         <p>
           {postData.likes} {postData.likes === 1 ? "Like" : "Likes"}
         </p>
-        <div className="flex flex-row items-center">
-          <FaHeart className="mx-1" />
-          <FaArchive className="mx-1" />
-          <FaTrash className="ml-1" />
-        </div>
+        <PostControls postId={postData.postId} />
       </footer>
     </div>
   );
@@ -116,11 +104,7 @@ export const VioletNote = ({ postData }: { postData: INotePostData }) => {
         <p>
           {postData.likes} {postData.likes === 1 ? "Like" : "Likes"}
         </p>
-        <div className="flex flex-row items-center">
-          <FaHeart className="mx-1" />
-          <FaArchive className="mx-1" />
-          <FaTrash className="ml-1" />
-        </div>
+        <PostControls postId={postData.postId} />
       </footer>
     </div>
   );
