@@ -97,7 +97,7 @@ const Navbar = () => {
                       : "text-white hover:underline hover:text-gray-300"
                   }`}
                 >
-                  Connections
+                  My Connections
                 </Link>
                 {!!session ? (
                   <Link

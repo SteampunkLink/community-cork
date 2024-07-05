@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getSessionUser } from "@/utils/getSessionUser";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import togglePostLike from "@/config/actions/togglePostLike";
 
@@ -11,7 +10,7 @@ interface IPostLikeBtnProps {
 
 const PostLikeBtn = ({ postId, isLikedByMe }: IPostLikeBtnProps) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsLiked(isLikedByMe);

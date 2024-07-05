@@ -1,7 +1,7 @@
 import { getSessionUser } from "@/utils/getSessionUser";
 import connectDB from "../db";
 import Post from "@/models/Post";
-import { INotePostData } from "@/components/post/PostBoard";
+import { INotePostData } from "@/components/post/PostNote";
 
 async function getMyPosts(): Promise<INotePostData[]> {
   await connectDB();
@@ -10,12 +10,14 @@ async function getMyPosts(): Promise<INotePostData[]> {
     throw new Error("No User Found");
   } else {
     const userId = sessionUser.userId;
-    const posts = await Post.find({ user: userId, status: "pinned" });
+    const posts = await Post.find({ $or: [{ user: userId }, { likes: userId, status: "pinned" }] }).populate("user");
+
     const formattedPosts = posts.map((post) => ({
+      status: post.user._id.toString() === userId ? post.status : "liked",
       postId: post._id,
-      posterId: sessionUser.userId,
-      user: sessionUser.user.name!,
-      image: sessionUser.user.image!,
+      posterId: post.user._id,
+      user: post.user.profile.displayname!,
+      image: post.user.image!,
       body: post.body,
       likes: post.likes.length,
       color: post.color,

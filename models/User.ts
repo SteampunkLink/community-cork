@@ -43,19 +43,19 @@ const User = models.User || model<IUser, UserModel>("User", UserSchema);
 
 export default User;
 
-export interface IUserWithId {
-  _id: string;
-  username: string;
-  email: string;
-  image: string;
-  profile: {
-    name?: string;
-    displayname?: string;
-    bio?: string;
-  }
-  relationships: {
-    followers: string[];
-    following: string[];
-    mutual: string[];
-  }
-}
+// export interface IUserWithId {
+//   _id: string;
+//   username: string;
+//   email: string;
+//   image: string;
+//   profile: {
+//     name?: string;
+//     displayname?: string;
+//     bio?: string;
+//   }
+//   relationships: {
+//     followers: string[];
+//     following: string[];
+//     mutual: string[];
+//   }
+// }

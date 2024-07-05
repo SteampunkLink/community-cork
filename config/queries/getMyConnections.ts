@@ -1,6 +1,6 @@
 import { getSessionUser } from "@/utils/getSessionUser";
 import connectDB from "../db";
-import User from "@/models/User";
+import getUserAndPopulateRelationships from "@/utils/getUserAndPopulateRelationships";
 
 // TODO - add types for return
 async function getMyConnections() {
@@ -9,11 +9,10 @@ async function getMyConnections() {
   if (!sessionUser || !sessionUser.userId) {
     throw new Error("No User Found");
   } else {
-    const myConnections = await User.findById(sessionUser.userId)
-      .populate("relationships.followers")
-      .populate("relationships.following")
-      .populate("relationships.mutual");
-
+    const myConnections = await getUserAndPopulateRelationships({
+      userId: sessionUser.userId,
+      loggedInUserId: sessionUser.userId
+    });
     return myConnections;
   }
 

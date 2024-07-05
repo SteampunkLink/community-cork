@@ -4,6 +4,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import archivePost from "@/config/actions/archivePost";
 import deletePost from "@/config/actions/deletePost";
+import unfollowUser from "@/config/actions/unfollowUser";
 
 const Modal = () => {
   const searchParams = useSearchParams();
@@ -17,6 +18,8 @@ const Modal = () => {
       setModalText("Do you wish to archive this post?");
     } else if (modal === "deletePost") {
       setModalText("Do you wish to delete this post?");
+    } else if (modal === "unfollow") {
+      setModalText("Are you sure you want to unfollow this user?");
     } else {
       setModalText("");
     }
@@ -26,13 +29,19 @@ const Modal = () => {
     if (modal === "archive") {
       const post = searchParams.get("post");
       if (post) {
-        const res = await archivePost(post);
+        await archivePost(post);
         router.push(pathname);
       }
     } else if (modal === "deletePost") {
       const post = searchParams.get("post");
       if (post) {
-        const res = await deletePost(post);
+        await deletePost(post);
+        router.push(pathname);
+      }
+    } else if (modal === "unfollow") {
+      const user = searchParams.get("user");
+      if (user) {
+        await unfollowUser(user);
         router.push(pathname);
       }
     }

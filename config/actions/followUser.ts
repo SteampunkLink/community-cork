@@ -3,6 +3,7 @@
 import connectDB from "../db";
 import { getSessionUser } from "@/utils/getSessionUser";
 import User from "@/models/User";
+import { revalidatePath } from "next/cache";
 
 const followUser = async (formData: FormData) => {
   const userToFollowId = formData.get("userToFollowId");
@@ -43,6 +44,8 @@ const followUser = async (formData: FormData) => {
 
   await userFollowing.save();
   await userToFollow.save();
+
+  revalidatePath("/", "layout");
 }
 
 export default followUser;

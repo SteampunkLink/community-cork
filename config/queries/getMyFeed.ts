@@ -1,5 +1,5 @@
-import { getSessionUser } from "@/utils/getSessionUser";
 import connectDB from "../db";
+import { getSessionUser } from "@/utils/getSessionUser";
 import User from "@/models/User";
 import Post from "@/models/Post";
 
@@ -18,13 +18,14 @@ const getMyFeed = async () => {
         { user: sessionUser.userId },
         { user: { $in: followedUsers } },
         { user: { $in: mutualFollows } }
-      ]
+      ],
+      status: "pinned"
     }).populate("user");
 
     const formattedPosts = postsFromFollowed.map((post) => ({
       postId: post._id,
       posterId: post.user._id,
-      user: post.user.username,
+      user: post.user.profile.displayname,
       image: post.user.image,
       body: post.body,
       likes: post.likes.length,
