@@ -1,5 +1,3 @@
-// import PostBoard from "@/components/post/PostBoard";
-// import getMyFeed from "@/config/queries/getMyFeed";
 import connectDB from "@/config/db";
 import { getSessionUser } from "@/utils/getSessionUser";
 import MyFeed from "@/components/MyFeed";

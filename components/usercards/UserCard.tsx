@@ -3,17 +3,23 @@ import Link from "next/link";
 
 import followUser from "@/config/actions/followUser";
 
-interface IUserCardProps {
+export interface IUserCardProps {
   uid: string;
-  profile: {
-    name?: string;
-    displayname?: string;
-    bio?: string;
-  };
+  name: string;
   image: string;
+  displayname: string;
+  bio: string;
+  relation: string;
 }
 
-const UserCard = ({ uid, profile, image }: IUserCardProps) => {
+const UserCard = ({
+  uid,
+  name,
+  image,
+  displayname,
+  bio,
+  relation,
+}: IUserCardProps) => {
   return (
     <div className="flex flex-row bg-pink-800 m-5 p-2 rounded-lg justify-evenly">
       <Image
@@ -25,29 +31,42 @@ const UserCard = ({ uid, profile, image }: IUserCardProps) => {
       />
       <div className="flex flex-col justify-center w-4/6 text-center">
         <h3 className="text-xl font-bold mb-3">
-          {profile.name} - {profile.displayname}
+          {name} - {displayname}
         </h3>
-        <p>{profile.bio}</p>
+        <p>{bio}</p>
         <div className="flex flex-row">
-          <form action={followUser}>
-            <input
-              id="userToFollowId"
-              name="userToFollowId"
-              type="hidden"
-              value={uid.toString()}
-            />
-            <button
-              type="submit"
-              className="bg-slate-400 p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300"
-            >
-              Follow Me
-            </button>
-          </form>
+          {relation === "None" || relation === "Follows You" ? (
+            <form action={followUser}>
+              <input
+                id="userToFollowId"
+                name="userToFollowId"
+                type="hidden"
+                value={uid}
+              />
+              <button
+                type="submit"
+                className="bg-slate-400 p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300"
+              >
+                Follow Me
+              </button>
+            </form>
+          ) : null}
+          {relation === "Mutual" || relation === "You Follow" ? (
+            <Link href={`?modal=unfollow&user=${uid}`}>
+              <button
+                type="submit"
+                className="bg-slate-400 p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300"
+              >
+                Unfollow
+              </button>
+            </Link>
+          ) : null}
           <Link href={`/user/${uid}`}>
             <button className="bg-slate-400 p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300">
               My Profile
             </button>
           </Link>
+          <p>{relation}</p>
         </div>
       </div>
     </div>

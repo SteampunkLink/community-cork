@@ -25,12 +25,12 @@ const Post = models.Post || model<IPost, PostModel>("Post", PostSchema);
 
 export default Post;
 
-// export interface IPostWithId {
-//   _id: string;
-//   user: string;
-//   body: string;
-//   color: string;
-//   likes: string[];
-//   status: string;
-//   createdAt: string;
-// }
+export interface IPostWithId {
+  _id: string;
+  user: string;
+  body: string;
+  color: string;
+  likes: string[];
+  status: string;
+  createdAt: string;
+}

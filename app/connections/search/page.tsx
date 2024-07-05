@@ -1,7 +1,8 @@
-import UserCard from "@/components/usercards/UserCard";
+import UserCardList from "@/components/usercards/UserCardList";
 import getUsersBySearch from "@/config/queries/getUsersBySearch";
 
-const page = async ({
+// /connections/search
+const SearchPage = async ({
   searchParams,
 }: {
   searchParams: { searchTerm: string };
@@ -9,17 +10,12 @@ const page = async ({
   const formattedUsers = await getUsersBySearch(searchParams.searchTerm);
   return (
     <div>
-      <h2>Search Results page with {searchParams.searchTerm}</h2>
-      {formattedUsers.map((user) => (
-        <UserCard
-          key={user.uid}
-          uid={user.uid}
-          profile={user.profile}
-          image={user.image}
-        />
-      ))}
+      <UserCardList
+        title={`Search results page with ${searchParams.searchTerm}`}
+        userList={formattedUsers}
+      />
     </div>
   );
 };
 
-export default page;
+export default SearchPage;
