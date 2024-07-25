@@ -19,12 +19,16 @@ import { FaGoogle } from "react-icons/fa";
 import { FaStickyNote } from "react-icons/fa";
 import defaultProfileImage from "@/assets/images/profile.png";
 
+import checkUserStatus from "@/config/actions/checkUserStatus";
+import FirstTimeModal from "./FirstTimeModal";
+
 const Navbar = () => {
   const { data: session } = useSession();
   const profileImage = session?.user.image || defaultProfileImage;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isDisplayNameModalOpen, setIsDisplayNameModalOpen] = useState(false);
 
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
@@ -39,10 +43,21 @@ const Navbar = () => {
       setProviders(res);
     };
     setAuthProviders();
+
+    const checkForDisplayName = async () => {
+      const displayNameIsDefault = await checkUserStatus();
+      if (displayNameIsDefault) {
+        setIsDisplayNameModalOpen(true);
+      } else {
+        setIsDisplayNameModalOpen(false);
+      }
+    };
+    checkForDisplayName();
   }, []);
 
   return (
     <nav className="bg-yellow-700 border-b border-blue-500">
+      {isDisplayNameModalOpen ? <FirstTimeModal /> : null}
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-20 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
@@ -89,27 +104,29 @@ const Navbar = () => {
             </Link>
             <div className="hidden md:ml-6 md:block">
               <div className="flex space-x-2">
-                <Link
-                  href="/connections"
-                  className={`rounded-md items-center px-3 py-2 ${
-                    pathName?.split("/")[1] === "connections"
-                      ? "text-blue-300"
-                      : "text-white hover:underline hover:text-gray-300"
-                  }`}
-                >
-                  My Connections
-                </Link>
                 {!!session ? (
-                  <Link
-                    href="/myposts"
-                    className={`rounded-md items-center px-3 py-2 ${
-                      pathName?.split("/")[1] === "myposts"
-                        ? "text-blue-300"
-                        : "text-white hover:underline hover:text-gray-300"
-                    }`}
-                  >
-                    My Posts
-                  </Link>
+                  <>
+                    <Link
+                      href="/connections"
+                      className={`rounded-md items-center px-3 py-2 ${
+                        pathName?.split("/")[1] === "connections"
+                          ? "text-blue-300"
+                          : "text-white hover:underline hover:text-gray-300"
+                      }`}
+                    >
+                      My Connections
+                    </Link>
+                    <Link
+                      href="/myposts"
+                      className={`rounded-md items-center px-3 py-2 ${
+                        pathName?.split("/")[1] === "myposts"
+                          ? "text-blue-300"
+                          : "text-white hover:underline hover:text-gray-300"
+                      }`}
+                    >
+                      My Posts
+                    </Link>
+                  </>
                 ) : null}
               </div>
             </div>
@@ -118,7 +135,7 @@ const Navbar = () => {
           {!!session ? (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
               {/* Right Menu Logged In */}
-              <Link href="/messages" className="relative group">
+              {/* <Link href="/messages" className="relative group">
                 <button
                   type="button"
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -142,9 +159,9 @@ const Navbar = () => {
                 </button>
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
                   2
-                  {/* <!-- Replace with the actual number of notifications --> */}
+                  {<!-- Replace with the actual number of notifications -->}
                 </span>
-              </Link>
+              </Link> /*
               {/* Profile Menu Button */}
               <div className="relative ml-3">
                 <div>

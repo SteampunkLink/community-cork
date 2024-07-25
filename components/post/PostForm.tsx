@@ -36,6 +36,21 @@ const PostForm = () => {
           <option value="violet">Violet</option>
         </select>
       </div>
+      <div className="">
+        <select
+          id="visibleTo"
+          name="visibleTo"
+          className="border w=9/12"
+          aria-label="Who will see this post?"
+          required
+        >
+          <option>Post Visible To</option>
+          <option value="everyone">Everyone</option>
+          <option value="follows">People I Follow</option>
+          <option value="mutuals">Mutuals Only</option>
+          <option value="private">Only Me</option>
+        </select>
+      </div>
       <PostSubmitBtn />
     </form>
   );

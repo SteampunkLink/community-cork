@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "@/assets/styles/global.css";
 import Providers from "./providers";
 import Navbar from "@/components/Navbar";
-import Modal from "@/components/Modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +28,6 @@ export default function RootLayout({
             backgroundAttachment: "fixed",
           }}
         >
-          <Modal />
           <Navbar />
           <div className="container mx-auto px-12">{children}</div>
         </body>

@@ -14,7 +14,6 @@ const UserCardList = ({ title, userList }: IUserCardListProps) => {
         <div key={friend.uid.toString()}>
           <UserCard
             uid={friend.uid.toString()}
-            name={friend.name}
             image={friend.image}
             displayname={friend.displayname}
             bio={friend.bio}

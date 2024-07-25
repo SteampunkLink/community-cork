@@ -20,7 +20,8 @@ async function addPost(formData: FormData) {
     body: formData.get("body"),
     color: formData.get("color"),
     likes: [],
-    status: "pinned"
+    status: "pinned",
+    visibility: formData.get("visibleTo")
   }
 
   const newPost = new Post(newPostData);

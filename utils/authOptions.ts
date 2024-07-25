@@ -27,14 +27,21 @@ export const authOptions: NextAuthOptions = {
         await connectDB();
         const userExists = await User.findOne({ email: profile.email })
         if (!userExists) {
+          let image;
+          if (!("picture" in profile)) {
+            image = "/profile.png"
+          } else {
+            image = profile.picture;
+          }
           const username = profile.name?.slice(0, 20);
+          const defaultChar = generateDefault(8);
           await User.create({
             email: profile.email,
-            username,
-            image: profile.image,
+            image: image,
+            default: defaultChar,
             profile: {
               name: username,
-              displayname: username,
+              displayname: `${username}-${defaultChar}`,
             }
           })
         }

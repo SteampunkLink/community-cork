@@ -10,24 +10,29 @@ const getUsersBySearch = async (term: string) => {
   } else {
     const searchPattern = new RegExp(term, "i");
     let query = {
-      $or: [
-        { email: searchPattern },
-        { username: searchPattern },
-        { "profile.name": searchPattern },
-        { "profile.displayname": searchPattern },
+      $and: [
+        {
+          $or: [
+            { email: searchPattern },
+            { "profile.name": searchPattern },
+            { "profile.displayname": searchPattern },
+          ]
+        },
+        { "options.isProfileSearchable": true },
+        { "options.blacklist": { $nin: [sessionUser.userId] } }
       ]
+
     }
     const foundUsers = await User.find(query);
     const formattedUsers = foundUsers.map((user) => ({
       uid: user._id,
-      name: user.username,
       image: user.image,
       displayname: user.profile.displayname || user.username,
       bio: user.profile.bio,
-      relation: user._id === sessionUser.userId ? "Me" :
+      relation: user._id.toString() === sessionUser.userId ? "Me" :
         user.relationships.mutual.includes(sessionUser.userId) ? "Mutual" :
-          user.relationships.followers.includes(sessionUser.userId) ? "Follows You" :
-            user.relationships.following.includes(sessionUser.userId) ? "Following" :
+          user.relationships.followers.includes(sessionUser.userId) ? "You Follow" :
+            user.relationships.following.includes(sessionUser.userId) ? "Follows You" :
               "None"
     }))
     return formattedUsers;

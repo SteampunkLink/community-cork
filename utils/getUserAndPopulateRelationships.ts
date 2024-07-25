@@ -10,7 +10,6 @@ interface IGetUserAndPopulateRelationshipsProps {
 
 interface IRelation {
   _id: string | mongoose.Types.ObjectId;
-  username: string;
   image: string;
   profile: {
     name?: string;
@@ -27,9 +26,9 @@ interface IRelation {
 const getUserAndPopulateRelationships = async ({ userId, loggedInUserId }: IGetUserAndPopulateRelationshipsProps) => {
 
   const userToFind = await User.findById(userId)
-    .populate("relationships.followers", ["username", "profile", "image", "relationships"])
-    .populate("relationships.following", ["username", "profile", "image", "relationships"])
-    .populate("relationships.mutual", ["username", "profile", "image", "relationships"])
+    .populate("relationships.followers", ["profile", "image", "relationships"])
+    .populate("relationships.following", ["profile", "image", "relationships"])
+    .populate("relationships.mutual", ["profile", "image", "relationships"])
 
   const getRelationToLoggedInUser = () => {
     let userRelation = "None";
@@ -48,17 +47,15 @@ const getUserAndPopulateRelationships = async ({ userId, loggedInUserId }: IGetU
   return {
     myData: {
       uid: userId,
-      name: userToFind.username,
       image: userToFind.image,
-      displayname: userToFind.profile.displayname || userToFind.username,
+      displayname: userToFind.profile.displayname,
       bio: userToFind.profile.bio,
       relation: getRelationToLoggedInUser()
     },
     mutual: userToFind.relationships.mutual.map((friend: IRelation) => ({
       uid: friend._id,
-      name: friend.username,
       image: friend.image,
-      displayname: friend.profile.displayname || friend.username,
+      displayname: friend.profile.displayname,
       bio: friend.profile.bio,
       relation: friend._id.toString() === loggedInUserId ? "Me" :
         friend.relationships.mutual.includes(loggedInUserId) ? "Mutual" :
@@ -68,9 +65,8 @@ const getUserAndPopulateRelationships = async ({ userId, loggedInUserId }: IGetU
     })),
     followers: userToFind.relationships.followers.map((follower: IRelation) => ({
       uid: follower._id,
-      name: follower.username,
       image: follower.image,
-      displayname: follower.profile.displayname || follower.username,
+      displayname: follower.profile.displayname,
       bio: follower.profile.bio,
       relation: follower._id.toString() === loggedInUserId ? "Me" :
         follower.relationships.mutual.includes(loggedInUserId) ? "Mutual" :
@@ -80,9 +76,8 @@ const getUserAndPopulateRelationships = async ({ userId, loggedInUserId }: IGetU
     })),
     following: userToFind.relationships.following.map((followed: IRelation) => ({
       uid: followed._id,
-      name: followed.username,
       image: followed.image,
-      displayname: followed.profile.displayname || followed.username,
+      displayname: followed.profile.displayname,
       bio: followed.profile.bio,
       relation: followed._id.toString() === loggedInUserId ? "Me" :
         followed.relationships.mutual.includes(loggedInUserId) ? "Mutual" :

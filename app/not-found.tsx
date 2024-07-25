@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { FaExclamationTriangle } from "react-icons/fa";
 
-const ErrorPage = ({ error, reset }: { error: any; reset: any }) => {
+const NotFoundPage = ({ error, reset }: { error: any; reset: any }) => {
   return (
     <section className="bg-blue-50 min-h-screen flex-grow">
       <div className="container m-auto max-w-2xl py-24">
@@ -12,21 +12,9 @@ const ErrorPage = ({ error, reset }: { error: any; reset: any }) => {
           </div>
           <div className="text-center">
             <h2 className="text-3xl font-bold mt-4 mb-2">
-              Something went wrong!
+              404 | Sorry, we can't find that.
             </h2>
-            <h2 className="text-2xl font-bold my-2 text-red-400">
-              {error.message}
-            </h2>
-            <p className="text-gray-500 text-xl my-5">
-              Shall we try again? ...
-            </p>
-            <button
-              onClick={() => reset()}
-              className="bg-yellow-500 hover:bg-yellow-600 font-bold py-4 px-6 rounded"
-            >
-              Try again
-            </button>
-            <p className="text-gray-500 text-xl my-5">Or back to home...</p>
+            <p className="text-gray-500 text-xl my-5">Return Home</p>
             <Link
               href="/"
               className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 px-6 rounded inline-block"
@@ -40,4 +28,4 @@ const ErrorPage = ({ error, reset }: { error: any; reset: any }) => {
     </section>
   );
 };
-export default ErrorPage;
+export default NotFoundPage;
