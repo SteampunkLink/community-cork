@@ -8,13 +8,18 @@ interface IUserProfile {
 
 interface IUser {
   email: string;
-  username: string;
   image: string;
+  default: string;
   profile: IUserProfile;
   relationships: {
     followers: string[];
     following: string[];
     mutual: string[];
+  },
+  options: {
+    isProfileSearchable: boolean;
+    postDefaultStatus: string;
+    blacklist: string[];
   }
 }
 
@@ -22,12 +27,13 @@ export type UserModel = Model<IUser, {}>;
 
 const UserSchema = new Schema<IUser, UserModel>(
   {
-    username: { type: String, required: true, unique: true },
+    // username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     image: { type: String, default: "/profile.png" },
+    default: { type: String },
     profile: {
       name: { type: String },
-      displayname: { type: String },
+      displayname: { type: String, unique: true },
       bio: { type: String }
     },
     relationships: {
@@ -35,6 +41,10 @@ const UserSchema = new Schema<IUser, UserModel>(
       following: [{ type: Schema.Types.ObjectId, ref: "User" }],
       mutual: [{ type: Schema.Types.ObjectId, ref: "User" }],
     },
+    options: {
+      isProfileSearchable: { type: Boolean, default: true },
+      blacklist: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    }
   },
   { timestamps: true }
 )
@@ -42,20 +52,3 @@ const UserSchema = new Schema<IUser, UserModel>(
 const User = models.User || model<IUser, UserModel>("User", UserSchema);
 
 export default User;
-
-// export interface IUserWithId {
-//   _id: string;
-//   username: string;
-//   email: string;
-//   image: string;
-//   profile: {
-//     name?: string;
-//     displayname?: string;
-//     bio?: string;
-//   }
-//   relationships: {
-//     followers: string[];
-//     following: string[];
-//     mutual: string[];
-//   }
-// }

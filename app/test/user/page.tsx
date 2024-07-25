@@ -1,6 +1,5 @@
-import Link from "next/link";
 import connectDB from "@/config/db";
-import User, { IUserWithId } from "@/models/User";
+import User from "@/models/User";
 import UserCard from "@/components/usercards/UserCard";
 
 const AllUsers = async () => {
@@ -10,15 +9,16 @@ const AllUsers = async () => {
     <>
       {users.length > 0 ? (
         <div>
-          {users.map((user: IUserWithId) => (
-            // <Link href={`/user/${user._id}`} key={user._id}>
+          {users.map((user) => (
             <UserCard
               key={user._id}
               uid={user._id}
-              profile={user.profile}
               image={user.image}
+              name={user.profile.name}
+              displayname={user.profile.displayname}
+              bio={user.profile.bio}
+              relation="n/a"
             />
-            // </Link>
           ))}
         </div>
       ) : (

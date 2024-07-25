@@ -1,9 +1,9 @@
-import * as Note from "./PostNote";
+import PostNote, { INotePostData } from "./PostNote";
 import PostForm from "./PostForm";
 
 interface IPostBoardProps {
   title: string;
-  posts: Note.INotePostData[];
+  posts: INotePostData[];
   isFormVisable: boolean;
 }
 
@@ -17,17 +17,9 @@ const PostBoard = ({ title, posts, isFormVisable }: IPostBoardProps) => {
           <p>No Posts to display</p>
         ) : (
           <>
-            {posts.map((post) =>
-              post.color === "emerald" ? (
-                <Note.EmeraldNote key={post.postId} postData={post} />
-              ) : post.color === "sky" ? (
-                <Note.SkyNote key={post.postId} postData={post} />
-              ) : post.color === "violet" ? (
-                <Note.VioletNote key={post.postId} postData={post} />
-              ) : post.color === "rose" ? (
-                <Note.RoseNote key={post.postId} postData={post} />
-              ) : null
-            )}
+            {posts.map((post) => (
+              <PostNote key={post.postId} postData={post} />
+            ))}
           </>
         )}
       </div>

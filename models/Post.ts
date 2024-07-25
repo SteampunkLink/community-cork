@@ -6,6 +6,7 @@ interface IPost {
   color: string;
   likes: Schema.Types.ObjectId[];
   status: string; // pinned or archive
+  visibility: string; // everyone, followed, mutuals, private
 }
 
 export type PostModel = Model<IPost, {}>;
@@ -17,6 +18,7 @@ const PostSchema = new Schema<IPost, PostModel>(
     color: { type: String },
     likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
     status: { type: String, default: "pinned" },
+    visibility: { type: String, default: "everyone" }
   },
   { timestamps: true }
 )

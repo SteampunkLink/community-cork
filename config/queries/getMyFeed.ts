@@ -16,8 +16,8 @@ const getMyFeed = async () => {
     const postsFromFollowed = await Post.find({
       $or: [
         { user: sessionUser.userId },
-        { user: { $in: followedUsers } },
-        { user: { $in: mutualFollows } }
+        { $and: [{ user: { $in: followedUsers } }, { visibility: "everyone" }] },
+        { $and: [{ user: { $in: mutualFollows } }, { visibility: { $ne: "private" } }] }
       ],
       status: "pinned"
     }).populate("user");
@@ -34,7 +34,6 @@ const getMyFeed = async () => {
       ${new Date(post.createdAt).getUTCMonth() + 1}/${new Date(post.createdAt).getUTCDate()}/${new Date(post.createdAt).getUTCFullYear()}
     `
     }))
-
     return formattedPosts;
   }
 }

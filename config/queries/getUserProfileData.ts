@@ -11,9 +11,21 @@ async function getUserProfileData(uid: string) {
   if (!sessionUser || !sessionUser.userId) {
     throw new Error("No User Found");
   } else {
-    const foundUser = await getUserAndPopulateRelationships({ userId: uid, loggedInUserId: sessionUser.userId })
+    const foundUser = await getUserAndPopulateRelationships({ userId: uid, loggedInUserId: sessionUser.userId });
 
-    const posts = await Post.find({ user: uid });
+    let query: any = {};
+
+    if (foundUser.myData.relation === "Follows You") {
+      query = { $and: [{ user: uid }, { $or: [{ visibility: "everyone" }, { visibility: "follows" }] }] };
+    } else if (foundUser.myData.relation === "Mutual") {
+      query = { $and: [{ user: uid }, { visibility: { $ne: "private" } }] };
+    } else if (foundUser.myData.relation === "Me") {
+      query = { user: uid };
+    } else {
+      query = { $and: [{ user: uid }, { visibility: "everyone" }] };
+    }
+
+    const posts = await Post.find(query);
     const formattedPosts = posts.map((post) => ({
       status: post.status,
       postId: post._id,
