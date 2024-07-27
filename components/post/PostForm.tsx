@@ -1,12 +1,13 @@
 import addPost from "@/config/actions/addPost";
 import PostSubmitBtn from "./PostSubmitBtn";
 
-const PostForm = () => {
+const PostForm = ({ formRedirect }: { formRedirect: string }) => {
   return (
     <form
       action={addPost}
       className="flex flex-col items-center justify-between w-[250px] h-[250px] bg-zinc-300 border-zinc-600 m-5 border-2"
     >
+      <input id="page" name="page" type="hidden" value={formRedirect} />
       <header className="font-bold w-full px-3 bg-zinc-400">
         <h3>Create Post</h3>
       </header>
@@ -42,10 +43,10 @@ const PostForm = () => {
           name="visibleTo"
           className="border w=9/12"
           aria-label="Who will see this post?"
+          defaultValue="everyone"
           required
         >
-          <option>Post Visible To</option>
-          <option value="everyone">Everyone</option>
+          <option value="everyone">Visible to Everyone</option>
           <option value="follows">People I Follow</option>
           <option value="mutuals">Mutuals Only</option>
           <option value="private">Only Me</option>

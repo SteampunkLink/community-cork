@@ -9,7 +9,10 @@ const MyPostsPage = async () => {
       <PostBoard
         title={"My Posts"}
         posts={myPosts.filter((post) => post.status === "pinned")}
-        isFormVisable={true}
+        isFormVisable={
+          myPosts.filter((post) => post.status === "pinned").length < 12
+        }
+        formRedirect="/myposts"
       />
       <PostBoard
         title={"My Archive"}

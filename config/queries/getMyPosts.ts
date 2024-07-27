@@ -10,7 +10,7 @@ async function getMyPosts(): Promise<INotePostData[]> {
     throw new Error("No User Found");
   } else {
     const userId = sessionUser.userId;
-    const posts = await Post.find({ $or: [{ user: userId }, { likes: userId, status: "pinned" }] }).populate("user");
+    const posts = await Post.find({ $or: [{ user: userId }, { likes: userId, status: "pinned" }] }).populate("user").sort({ createdAt: -1 });
 
     const formattedPosts = posts.map((post) => ({
       status: post.user._id.toString() === userId ? post.status : "liked",

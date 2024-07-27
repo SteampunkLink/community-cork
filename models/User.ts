@@ -27,7 +27,6 @@ export type UserModel = Model<IUser, {}>;
 
 const UserSchema = new Schema<IUser, UserModel>(
   {
-    // username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     image: { type: String, default: "/profile.png" },
     default: { type: String },

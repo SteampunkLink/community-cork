@@ -3,6 +3,7 @@
 import { getSessionUser } from "@/utils/getSessionUser";
 import connectDB from "../db";
 import Post from "@/models/Post";
+import { revalidatePath } from "next/cache";
 
 const togglePostLike = async (postId: string) => {
   let userLikeUpdatedStatus = false;
@@ -20,6 +21,7 @@ const togglePostLike = async (postId: string) => {
       userLikeUpdatedStatus = true;
     }
     await postToToggle.save();
+    revalidatePath("/", "layout");
     return userLikeUpdatedStatus;
   }
 }

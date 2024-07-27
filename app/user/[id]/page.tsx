@@ -18,7 +18,6 @@ const UserInfo = async ({ params }: IParams) => {
       <UserCard
         uid={foundUser.myData.uid}
         image={foundUser.myData.image}
-        name={foundUser.myData.name}
         displayname={foundUser.myData.displayname}
         bio={foundUser.myData.bio}
         relation={foundUser.myData.relation}
