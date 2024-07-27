@@ -20,9 +20,10 @@ const getMyFeed = async () => {
         { $and: [{ user: { $in: mutualFollows } }, { visibility: { $ne: "private" } }] }
       ],
       status: "pinned"
-    }).populate("user");
+    }).populate("user").sort({ createdAt: -1 });
 
     const formattedPosts = postsFromFollowed.map((post) => ({
+      status: post.status,
       postId: post._id,
       posterId: post.user._id,
       user: post.user.profile.displayname,
@@ -33,8 +34,11 @@ const getMyFeed = async () => {
       date: `
       ${new Date(post.createdAt).getUTCMonth() + 1}/${new Date(post.createdAt).getUTCDate()}/${new Date(post.createdAt).getUTCFullYear()}
     `
-    }))
-    return formattedPosts;
+    }));
+
+    const myPosts = formattedPosts.filter((post) => post.posterId.toString() === sessionUser.userId);
+
+    return { formattedPosts, myPostCount: myPosts.length };
   }
 }
 

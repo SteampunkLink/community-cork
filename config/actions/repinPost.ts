@@ -1,18 +1,25 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache";
-import connectDB from "@/config/db";
 import { getSessionUser } from "@/utils/getSessionUser";
+import connectDB from "../db";
 import Post from "@/models/Post";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-async function addPost(formData: FormData) {
-  const redirectTo = formData.get("formRedirect") || "/";
+const repinPost = async (postId: string, redirectTo: string) => {
   // Check for user
   await connectDB();
   const sessionUser = await getSessionUser();
   if (!sessionUser || !sessionUser.userId) {
-    throw new Error("User ID is required");
+    throw new Error("No User Found");
+  }
+
+  // Check there is a post and it belongs to the user
+  const postToRePin = await Post.findById(postId);
+  if (!postToRePin) {
+    throw new Error("Post Not Found")
+  } else if (postToRePin.user.toString() !== sessionUser.userId) {
+    throw new Error("Unauthorized");
   }
 
   // Check user hasn't hit post limit
@@ -22,21 +29,13 @@ async function addPost(formData: FormData) {
     redirect(`${redirectTo}?limit=true`);
   }
 
-  // Create new post
-  const newPostData = {
-    user: userId,
-    body: formData.get("body"),
-    color: formData.get("color"),
-    likes: [],
-    status: "pinned",
-    visibility: formData.get("visibleTo")
-  }
-  const newPost = new Post(newPostData);
-  await newPost.save();
+  // Update the post's status
+  postToRePin.status = "pinned";
+  await postToRePin.save();
   revalidatePath("/", "layout");
   if (existingPostsCount === 11) {
     redirect(`${redirectTo}?limit=true`);
   }
 }
 
-export default addPost;
+export default repinPost;

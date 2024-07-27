@@ -3,6 +3,7 @@ import Link from "next/link";
 import PostControls from "./PostControls";
 
 export interface INotePostData {
+  status: string;
   postId: string;
   posterId: string;
   user: string;
@@ -42,7 +43,7 @@ const PostNote = ({ postData }: { postData: INotePostData }) => {
         <p>
           {postData.likes} {postData.likes === 1 ? "Like" : "Likes"}
         </p>
-        <PostControls postId={postData.postId} />
+        <PostControls postId={postData.postId} postStatus={postData.status} />
       </footer>
     </div>
   );
