@@ -1,37 +1,40 @@
 "use client";
 
 import { useState } from "react";
-import unfollowUser from "@/config/actions/unfollowUser";
+import unBlacklistUser from "@/config/actions/unblacklistUser";
 import Modal from "../Modal";
 
-interface IUnfollowBtnProps {
+interface IBlacklistRemoveBtnProps {
   userId: string;
   userName: string;
 }
 
-const UnfollowBtn = ({ userId, userName }: IUnfollowBtnProps) => {
-  const [showModal, setShowModal] = useState(false);
+const BlacklistRemoveBtn = ({ userId, userName }: IBlacklistRemoveBtnProps) => {
+  const [showUnBlackListModal, setShowUnBshowUnBlackListModal] =
+    useState(false);
   const onConfirm = async () => {
-    await unfollowUser(userId);
-    setShowModal(false);
+    await unBlacklistUser(userId);
+    setShowUnBshowUnBlackListModal(false);
   };
   return (
     <>
       <button
-        onClick={() => setShowModal(true)}
-        className="bg-[#e8ec8d] text-black p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300"
+        onClick={() => setShowUnBshowUnBlackListModal(true)}
+        className="bg-[#ec8d9a] text-black p-2 rounded shadow-sm hover:bg-slate-300"
       >
-        Unfollow
+        Remove from Blacklist?
       </button>
-      {showModal ? (
+      {showUnBlackListModal ? (
         <Modal>
           <>
             <p className="text-lg text-center mb-3">
-              Are you sure you want to unfollow {userName}?
+              Are you sure you want to remove {userName} from your blacklist?
+              They will be able to see your profile again. Any previous
+              relationship (following/follower/mutual) will NOT be restored.
             </p>
             <div className="flex flex-row justify-evenly">
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowUnBshowUnBlackListModal(false)}
                 className="bg-slate-300 p-3 w-2/5 transition duration-300 text-center hover:bg-slate-600 hover:text-white"
               >
                 Cancel
@@ -50,4 +53,4 @@ const UnfollowBtn = ({ userId, userName }: IUnfollowBtnProps) => {
   );
 };
 
-export default UnfollowBtn;
+export default BlacklistRemoveBtn;

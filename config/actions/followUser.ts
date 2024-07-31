@@ -5,8 +5,9 @@ import { getSessionUser } from "@/utils/getSessionUser";
 import User from "@/models/User";
 import { revalidatePath } from "next/cache";
 
-const followUser = async (formData: FormData) => {
-  const userToFollowId = formData.get("userToFollowId");
+// const followUser = async (formData: FormData) => {
+//   const userToFollowId = formData.get("userToFollowId");
+const followUser = async (userId: string) => {
   await connectDB();
   const sessionUser = await getSessionUser();
 
@@ -15,7 +16,7 @@ const followUser = async (formData: FormData) => {
   }
 
   const userFollowing = await User.findById(sessionUser.userId);
-  const userToFollow = await User.findById(userToFollowId);
+  const userToFollow = await User.findById(userId);
 
   if (!userToFollow) {
     throw new Error("User not found");

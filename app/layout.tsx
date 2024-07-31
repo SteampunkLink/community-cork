@@ -23,13 +23,14 @@ export default function RootLayout({
         <body
           className={inter.className}
           style={{
-            background: "green",
+            backgroundImage:
+              "linear-gradient(140deg, rgba(5,5,113,1) 68%, rgba(31,209,245,1) 85%);",
             backgroundSize: "cover",
             backgroundAttachment: "fixed",
           }}
         >
           <Navbar />
-          <div className="container mx-auto px-12">{children}</div>
+          <div className="md:container mx-auto px-6 md:px-12">{children}</div>
         </body>
       </html>
     </Providers>

@@ -16,7 +16,7 @@ const PostBoard = ({
 }: IPostBoardProps) => {
   return (
     <>
-      <h3 className="text-lg text-center text-white font-bold">{title}</h3>
+      <h3 className="text-2xl text-white font-bold">{title}</h3>
       <div className="flex flex-row flex-wrap justify-evenly">
         {isFormVisable ? <PostForm formRedirect={formRedirect || "/"} /> : null}
         {posts.length === 0 ? (
