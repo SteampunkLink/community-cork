@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import env from "@/utils/validateEnv";
 import connectDB from "@/config/db";
 import User from "@/models/User";
+import generateDefault from "./generateDefault";
 
 export const authOptions: NextAuthOptions = {
   providers: [
