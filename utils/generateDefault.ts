@@ -9,3 +9,5 @@ const generateDefault = (length: number) => {
   }
   return result;
 }
+
+export default generateDefault;

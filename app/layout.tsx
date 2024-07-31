@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@/assets/styles/global.css";
 import Providers from "./providers";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,10 @@ export default function RootLayout({
           }}
         >
           <Navbar />
-          <div className="md:container mx-auto px-6 md:px-12">{children}</div>
+          <div className="md:container mx-auto px-6 md:px-12 min-h-[85vh]">
+            {children}
+          </div>
+          <Footer />
         </body>
       </html>
     </Providers>
