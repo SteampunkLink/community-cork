@@ -37,14 +37,14 @@ const ChangeDisplayNameInput = ({
       <input
         className="color-slate-200 border-2 border-black shadow-sm"
         type="text"
-        aria-label="update display name"
+        aria-label="update display name (must be unique)"
         value={updatedDisplayName}
         onChange={(e) => handleChange(e)}
       />
       <button
         disabled={!isDisplayNameAvailable}
         onClick={handleSubmit}
-        className="color-slate-200 border-2 border-black shadow-sm w-10 bg-slate-200"
+        className="flex flex-row items-center justify-center shadow-sm w-10 bg-slate-200"
       >
         {isNameCheckLoading ? (
           <FaSpinner />

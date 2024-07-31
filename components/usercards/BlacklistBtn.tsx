@@ -1,37 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import unfollowUser from "@/config/actions/unfollowUser";
+import blacklistUser from "@/config/actions/blacklistUser";
 import Modal from "../Modal";
 
-interface IUnfollowBtnProps {
+interface IBlacklistBtnProps {
   userId: string;
   userName: string;
 }
 
-const UnfollowBtn = ({ userId, userName }: IUnfollowBtnProps) => {
-  const [showModal, setShowModal] = useState(false);
+const BlacklistBtn = ({ userId, userName }: IBlacklistBtnProps) => {
+  const [showBlacklistModal, setShowBlacklistModal] = useState(false);
   const onConfirm = async () => {
-    await unfollowUser(userId);
-    setShowModal(false);
+    await blacklistUser(userId);
+    setShowBlacklistModal(false);
   };
   return (
     <>
       <button
-        onClick={() => setShowModal(true)}
-        className="bg-[#e8ec8d] text-black p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300"
+        onClick={() => setShowBlacklistModal(true)}
+        className="bg-[#ec8d9a] text-black p-2 mx-4 mt-4 rounded shadow-sm hover:bg-slate-300"
       >
-        Unfollow
+        Add to Blacklist
       </button>
-      {showModal ? (
+      {showBlacklistModal ? (
         <Modal>
           <>
             <p className="text-lg text-center mb-3">
-              Are you sure you want to unfollow {userName}?
+              Are you sure you want to blacklist {userName}? You will no longer
+              be able to see each other's profiles or posts and any existing
+              relationships (following/follower/mutual) will be erased.
             </p>
             <div className="flex flex-row justify-evenly">
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowBlacklistModal(false)}
                 className="bg-slate-300 p-3 w-2/5 transition duration-300 text-center hover:bg-slate-600 hover:text-white"
               >
                 Cancel
@@ -50,4 +52,4 @@ const UnfollowBtn = ({ userId, userName }: IUnfollowBtnProps) => {
   );
 };
 
-export default UnfollowBtn;
+export default BlacklistBtn;

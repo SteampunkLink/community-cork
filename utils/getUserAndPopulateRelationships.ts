@@ -21,14 +21,24 @@ interface IRelation {
     followers: string[],
     following: string[],
   }
+  options: {
+    isProfileSearchable: boolean,
+    blacklist: string[],
+  }
 }
 
 const getUserAndPopulateRelationships = async ({ userId, loggedInUserId }: IGetUserAndPopulateRelationshipsProps) => {
+
+  const myBlacklist = await User.findById(loggedInUserId).select("options.blacklist");
 
   const userToFind = await User.findById(userId)
     .populate("relationships.followers", ["profile", "image", "relationships"])
     .populate("relationships.following", ["profile", "image", "relationships"])
     .populate("relationships.mutual", ["profile", "image", "relationships"])
+
+  if (userToFind.options.blacklist.includes(loggedInUserId) || myBlacklist.options.blacklist.includes(userId)) {
+    throw new Error("User data not available.");
+  }
 
   const getRelationToLoggedInUser = () => {
     let userRelation = "None";

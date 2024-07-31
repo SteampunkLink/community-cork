@@ -9,8 +9,11 @@ const getUsersBySearch = async (term: string) => {
     throw new Error("No User Found");
   } else {
     const searchPattern = new RegExp(term, "i");
+    const myBlacklist = await User.findById(sessionUser.userId).select("options.blacklist");
+
     let query = {
       $and: [
+        { _id: { $nin: myBlacklist.options.blacklist } },
         {
           $or: [
             { email: searchPattern },
@@ -18,13 +21,12 @@ const getUsersBySearch = async (term: string) => {
             { "profile.displayname": searchPattern },
           ]
         },
-        { "options.isProfileSearchable": true },
-        { "options.blacklist": { $nin: [sessionUser.userId] } }
+        { "options.isProfileSearchable": true }
       ]
 
     }
     const foundUsers = await User.find(query);
-    const formattedUsers = foundUsers.map((user) => ({
+    const formattedUsers = foundUsers.filter((user) => !user.options.blacklist.includes(sessionUser.userId)).map((user) => ({
       uid: user._id,
       image: user.image,
       displayname: user.profile.displayname || user.username,

@@ -1,6 +1,7 @@
 import connectDB from "../db";
 import { getSessionUser } from "@/utils/getSessionUser";
 import Post from "@/models/Post";
+import User from "@/models/User";
 import getUserAndPopulateRelationships from "@/utils/getUserAndPopulateRelationships";
 
 async function getMyProfileData() {
@@ -25,7 +26,17 @@ async function getMyProfileData() {
       date: `
       ${new Date(post.createdAt).getUTCMonth() + 1}/${new Date(post.createdAt).getUTCDate()}/${new Date(post.createdAt).getUTCFullYear()} `
     }));
-    return { myUserData, formattedPosts }
+
+    const blacklistedProfiles = await User.findById(sessionUser.userId)
+      .select("options.blacklist")
+      .populate("options.blacklist", "profile.displayname");
+
+    const blacklist = blacklistedProfiles.options.blacklist.map((user: any) => ({
+      uid: user._id.toString(),
+      user: user.profile.displayname
+    }));
+
+    return { myUserData, formattedPosts, blacklist }
   }
 }
 
